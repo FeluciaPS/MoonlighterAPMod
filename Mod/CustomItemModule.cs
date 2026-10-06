@@ -179,6 +179,7 @@ namespace MoonlighterAPMod.Mod
 
         internal static void DropLocationItem(string locationName, Vector3 position)
         {
+            // TODO: Don't drop item if it already exists in world. Maybe using ShopManager.GetItemCount?
             ItemMaster item = GetItemByName(locationName);
             ItemStack stack = ItemStack.Create(item);
             Vector3 offset = (Vector3)UnityEngine.Random.insideUnitCircle * 32f;
