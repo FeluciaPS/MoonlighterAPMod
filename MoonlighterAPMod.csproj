@@ -36,12 +36,16 @@
 			<HintPath>$(GameDir)\Moonlighter_Data\Managed\Assembly-CSharp.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+		    <HintPath>$(GameDir)\Moonlighter_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+            <Private>false</Private>
+		</Reference>
 		<Reference Include="DOTween">
 			<HintPath>$(GameDir)\Moonlighter_Data\Managed\DOTween.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="TextMeshPro-2017.3-Runtime">
-		    <HintPath>..\..\..\SteamLibrary\steamapps\common\Moonlighter\Moonlighter_Data\Managed\TextMeshPro-2017.3-Runtime.dll</HintPath>
+		    <HintPath>$(GameDir)\Moonlighter_Data\Managed\TextMeshPro-2017.3-Runtime.dll</HintPath>
             <Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine">
@@ -56,16 +60,28 @@
 			<HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<Reference Include="UnityEngine.ImageConversionModule">
+		    <HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+            <Private>false</Private>
+		</Reference>
 		<Reference Include="UnityEngine.IMGUIModule">
-		    <HintPath>..\..\..\SteamLibrary\steamapps\common\Moonlighter\Moonlighter_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+		    <HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
             <Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.InputLegacyModule">
-		    <HintPath>..\..\..\SteamLibrary\steamapps\common\Moonlighter\Moonlighter_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+		    <HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
             <Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.InputModule">
-		    <HintPath>..\..\..\SteamLibrary\steamapps\common\Moonlighter\Moonlighter_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+		    <HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+            <Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.Physics2DModule">
+		    <HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+            <Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.PhysicsModule">
+		    <HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
             <Private>false</Private>
 		</Reference>
 		<Reference Include="UnityEngine.TextRenderingModule">
@@ -80,5 +96,11 @@
 			<HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.UIModule.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+        <None Include="Sprites\*.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
 	</ItemGroup>
 </Project>

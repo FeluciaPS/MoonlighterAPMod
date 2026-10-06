@@ -14,20 +14,10 @@ namespace MoonlighterAPMod
         internal static ArchipelagoClient client;
         internal static ConnectionUI connectionUI;
 
-        internal static void APMessage(object obj)
-        {
-            Logger.LogMessage(obj);
-        }
-
-        internal static void APInfo(object obj)
-        {
-            Logger.LogInfo(obj);
-        }
-
-        internal static void APError(object obj)
-        {
-            Logger.LogError(obj);
-        }
+        internal static void APMessage(object obj) => Logger.LogMessage(obj);
+        internal static void APInfo(object obj) => Logger.LogInfo(obj);
+        internal static void APError(object obj) => Logger.LogError(obj);
+        internal static void APWarning(object obj) => Logger.LogWarning(obj);
 
         private void Awake()
         {

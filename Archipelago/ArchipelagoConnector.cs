@@ -77,7 +77,7 @@ namespace MoonlighterAPMod.Archipelago
 
             MoonlighterAPMod.connectionUI.ShowSuccess(successMessage);
 
-            // TODO: Update received items or whatever
+            DeathLinkHelper.Start(Session);
         }
 
         internal void SetDeathLink(bool deathLink)
