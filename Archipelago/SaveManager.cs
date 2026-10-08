@@ -80,18 +80,20 @@ namespace MoonlighterAPMod.Archipelago
                 return false;
             }
         }
-        internal static void Save<T>(T data)
+        internal static void Save<T>(T data, string path = null)
         {
+            if (path == null) path = FilePath;
             string jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
-            Write(FilePath, jsonData);
+            Write(path, jsonData);
         }
 
-        internal static T Load<T>(T defaultValue = default)
+        internal static T Load<T>(T defaultValue = default, string path = null)
         {
-            if (!File.Exists(FilePath))
+            if (path == null) path = FilePath;
+            if (!File.Exists(path))
                 return defaultValue;
 
-            return JsonConvert.DeserializeObject<T>(File.ReadAllText(FilePath));
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
         }
 
         internal static void ReceiveItem(string itemName)
