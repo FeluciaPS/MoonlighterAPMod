@@ -25,7 +25,7 @@ namespace MoonlighterAPMod.Mod
         internal static bool ReceiveMoney(string amount)
         {
             if (amount == null) return false;
-            if (amount == "Money") return true;
+            if (amount == "Money") return ReceiveMoney(0.1f);
 
             Regex flatMoneyRegex = new(@"^(-?\d+)\sMoney$", RegexOptions.IgnoreCase);
             Regex percentMoneyRegex = new(@"^(-?\d+\.?\d)*%\sMoney$", RegexOptions.IgnoreCase);
