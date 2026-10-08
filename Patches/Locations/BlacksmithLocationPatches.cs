@@ -73,7 +73,6 @@ namespace MoonlighterAPMod.Patches.Locations
                     ItemMaster newItem = CustomItemModule.GetItemByName($"Craft {name}");
                     if (newItem != null)
                     {
-                        if (OptionsHelper.RequireSale) newItem.goldValue = item.goldValue / 2;
                         items[i] = newItem;
                     }
                 }
@@ -119,12 +118,18 @@ namespace MoonlighterAPMod.Patches.Locations
                 recipe.craftedItemName = $"Craft {apItemName}";
                 recipe.craftedItemNameKey = _craftedItem.nameKey;
 
+                int cost = (int)_costField.GetValue(recipe);
+                cost /= 2;
+
                 if (!OptionsHelper.RequireSale)
                 {
-                    int cost = (int)_costField.GetValue(recipe);
-                    cost /= 2;
                     _costField.SetValue(recipe, cost);
                     recipe.labourCostGold = cost;
+                }
+                else
+                {
+                    MoonlighterAPMod.APInfo(cost);
+                    _craftedItem.goldValue = cost;
                 }
 
                 _itemsField.SetValue(recipe, _craftedItem);
