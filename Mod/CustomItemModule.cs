@@ -179,12 +179,60 @@ namespace MoonlighterAPMod.Mod
 
         internal static void DropLocationItem(string locationName, Vector3 position)
         {
-            // TODO: Don't drop item if it already exists in world. Maybe using ShopManager.GetItemCount?
             ItemMaster item = GetItemByName(locationName);
+            if (item is not ArchipelagoItem apItem) return;
+            if (HasLocation(apItem.locationName)) return;
+
+            DropItem(item, position);
+        }
+
+        internal static void DropItem(ItemMaster item, Vector3 position)
+        {
             ItemStack stack = ItemStack.Create(item);
             Vector3 offset = (Vector3)UnityEngine.Random.insideUnitCircle * 32f;
 
             stack.Drop(position + offset);
+        }
+
+        internal static bool HasLocation(long locationId)
+        {
+            string locationName = LocationHelper.GetLocationName(locationId);
+            return HasLocation(locationName);
+        }
+
+        internal static bool HasLocation(string locationName)
+        {
+            if (LocationHelper.IsChecked(locationName)) return true;
+
+            ItemMaster item = GetItemByName(locationName);
+            if (item is not ArchipelagoItem) return false;
+            if (item == null) return false;
+
+            if (ShopManager.Instance.GetItemCount(item) > 0) return true;
+            if (GetShopItemCount(item) > 0) return true;
+            return false;
+        }
+
+        internal static int GetShopItemCount(ItemMaster item)
+        {
+            ShopManager shopManager = ShopManager.Instance;
+
+            if (item == null) return 0;
+            int num = 0;
+
+            foreach (Showcase showcase in shopManager.references.shopShowcases)
+            {
+                foreach (ShowcaseSlot slot in showcase.itemPositions)
+                {
+                    if (slot == null ||
+                        slot.itemStack == null ||
+                        slot.itemStack.master == null) continue;
+
+                    if (slot.itemStack.master == item) num += 1;
+                }
+            }
+
+            return num + shopManager.references.salesBox.GetItemCount(item);
         }
     }
 }

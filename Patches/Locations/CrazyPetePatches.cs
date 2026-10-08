@@ -19,7 +19,7 @@ namespace MoonlighterAPMod.Patches.Locations
                 for (int index = 0; index < 3; index++)
                 {
                     string locationName = $"{culture} Note {index + 1}";
-                    if (LocationHelper.IsChecked(locationName)) continue;
+                    if (CustomItemModule.HasLocation(locationName)) continue;
 
                     __instance.crazyPeteNoteIndex = index;
                     break;

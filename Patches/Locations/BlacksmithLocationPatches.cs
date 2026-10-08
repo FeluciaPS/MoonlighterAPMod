@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using MoonlighterAPMod.Archipelago;
 using MoonlighterAPMod.Mod;
+using MoonlighterAPMod.Patches.Items;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -98,7 +99,7 @@ namespace MoonlighterAPMod.Patches.Locations
                 for (int i = 0; i < items.Count; i++)
                 {
                     if (items[i] is not CustomItemModule.ArchipelagoItem item) continue;
-                    seen[i] = LocationHelper.IsChecked(item.locationName);
+                    //seen[i] = true;
                 }
             }
 
@@ -193,6 +194,32 @@ namespace MoonlighterAPMod.Patches.Locations
                 for (int i = 0; i <= 5; i++)
                 {
                     RefreshTab(__instance, i);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(TreeItemSelector))]
+        [HarmonyPatch(nameof(TreeItemSelector.SelectPage))]
+        internal static class PageChangePatch
+        {
+            internal static void Postfix(TreeItemSelector __instance)
+            {
+                if (!ArchipelagoClient.IsClientConnected) return;
+
+                var panel = __instance.gameObject.GetComponentInParent(typeof(BlacksmithPanel));
+
+                // Only trigger on blacksmith
+                if (panel == null) return;
+
+                foreach (InventorySlotGUI slot in __instance.slots)
+                {
+                    if (slot.imageItem.color.r == 0) continue;
+                    ItemMaster item = slot.item;
+                    if (item is not CustomItemModule.ArchipelagoItem apItem) continue;
+
+                    float a = 1f;
+                    if (CustomItemModule.HasLocation(apItem.locationName)) a = 0.2f;
+                    slot.imageItem.color = new UnityEngine.Color(1, 1, 1, a);
                 }
             }
         }

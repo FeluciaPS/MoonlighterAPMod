@@ -9,7 +9,7 @@ namespace MoonlighterAPMod.Mod
             // TODO: Create constant instead of hardcoded location ID
             long locationId = ((int)culture) * 100 + 10;
 
-            return LocationHelper.IsChecked(locationId);
+            return CustomItemModule.HasLocation(locationId);
         }
     }
 }

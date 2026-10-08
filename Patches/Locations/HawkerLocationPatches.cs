@@ -53,7 +53,7 @@ namespace MoonlighterAPMod.Patches.Locations
                     CustomItemModule.ArchipelagoItem gameItem = CustomItemModule.GetOrCreateItem(locationName);
 
                     items.Add(gameItem);
-                    bool isBought = LocationHelper.IsChecked(locationId);
+                    bool isBought = CustomItemModule.HasLocation(locationName);
                     visibleItems.Add(!isBought);
                 }
 
@@ -79,7 +79,7 @@ namespace MoonlighterAPMod.Patches.Locations
                 DecorationBuyPanel buyDetailsPanel = __instance.buyDetailsPanel;
                 buyDetailsPanel.textName.text = item.name;
                 buyDetailsPanel.itemImage.overrideSprite = ItemDatabase.GetSprite(item);
-                buyDetailsPanel.textOwned.text = LocationHelper.IsChecked(item.locationName) ? "1" : "0";
+                buyDetailsPanel.textOwned.text = CustomItemModule.HasLocation(item.locationName) ? "1" : "0";
                 buyDetailsPanel.textDescription.text = buyDetailsPanel.colorTable.CheckTable(item.description);
                 buyDetailsPanel.textCost.text = item.goldValue.ToString("0.");
             }
