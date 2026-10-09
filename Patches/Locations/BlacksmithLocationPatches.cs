@@ -145,7 +145,7 @@ namespace MoonlighterAPMod.Patches.Locations
                 Recipe newRecipe = recipe.Copy();
                 foreach (RecipeIngredient ingredient in newRecipe.ingredients)
                 {
-                    ItemMaster newIngredient = ItemDatabase.GetItemByName(ingredient.GetRequiredItem().name);
+                    ItemMaster newIngredient = InventoryItemHandler.GetItem(ingredient.GetRequiredItem().displayName);
                     _itemField.SetValue(ingredient, newIngredient);
                 }
                 return newRecipe;
