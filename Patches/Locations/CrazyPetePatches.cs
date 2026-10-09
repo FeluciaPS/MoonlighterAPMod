@@ -38,7 +38,7 @@ namespace MoonlighterAPMod.Patches.Locations
 
                 string locationName = $"{culture} Note {index + 1}";
 
-                MoonlighterAPMod.APInfo($"Sending crazy pete location {locationName}.");
+                MoonlighterAPMod.APInfo($"Trying to drop crazy pete location {locationName}.");
 
                 CustomItemModule.DropLocationItem(locationName, __instance.transform.position);
             }

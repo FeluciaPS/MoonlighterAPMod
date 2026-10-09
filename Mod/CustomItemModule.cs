@@ -177,13 +177,15 @@ namespace MoonlighterAPMod.Mod
             DropLocationItem(locationName, position);
         }
 
-        internal static void DropLocationItem(string locationName, Vector3 position)
+        internal static bool DropLocationItem(string locationName, Vector3 position)
         {
             ItemMaster item = GetItemByName(locationName);
-            if (item is not ArchipelagoItem apItem) return;
-            if (HasLocation(apItem.locationName)) return;
+            if (item is not ArchipelagoItem apItem) return false;
+            if (HasLocation(apItem.locationName)) return false;
 
             DropItem(item, position);
+
+            return true;
         }
 
         internal static void DropItem(ItemMaster item, Vector3 position)
@@ -205,12 +207,23 @@ namespace MoonlighterAPMod.Mod
             if (LocationHelper.IsChecked(locationName)) return true;
 
             ItemMaster item = GetItemByName(locationName);
-            if (item is not ArchipelagoItem) return false;
             if (item == null) return false;
+            if (item is not ArchipelagoItem) return false;
 
-            if (ShopManager.Instance.GetItemCount(item) > 0) return true;
-            if (GetShopItemCount(item) > 0) return true;
+            if (GetItemCount(item) > 0) return true;
             return false;
+        }
+
+        internal static int GetItemCount(ItemMaster item)
+        {
+            int bagItemCount = HeroMerchant.Instance.heroMerchantInventory.GetBagItemCount(item);
+            int equipmentItemCount = HeroMerchant.Instance.heroMerchantInventory.GetEquippmentItemCount(item);
+            int mimicItemCount = ShopManager.GetItemCountFromMimicFamiliar(item);
+
+            int shopItemCount = (bool)ShopManager.Instance ? GetShopItemCount(item) : GetShopItemCountFromSave(item);
+
+            int droppedItemCount = 0; // TODO: Write this
+            return bagItemCount + equipmentItemCount + mimicItemCount + shopItemCount + droppedItemCount;
         }
 
         internal static int GetShopItemCount(ItemMaster item)
@@ -232,7 +245,32 @@ namespace MoonlighterAPMod.Mod
                 }
             }
 
+            num += ShopManager.Instance.GetChestItemCount(item);
+            
             return num + shopManager.references.salesBox.GetItemCount(item);
+        }
+
+        internal static int GetShopItemCountFromSave(ItemMaster item)
+        {
+            if (item == null) return 0;
+
+            GameSlot currentGameSlot = GameManager.Instance.currentGameSlot;
+            ShopSaveInfo saveInfo = currentGameSlot.shopSaveInfo;
+            int num = 0;
+
+            foreach (ItemSaveInfo saveitem in saveInfo.shopShowcases)
+            {
+                // TODO: This may not work but I don't care right now
+                if (saveitem.name == item.name) num += 1;
+            }
+
+            for (int num2 = 0; num2 < saveInfo.shopChests.Count; num2++)
+            {
+                num += ShopManager.GetItemCountFromChestSave(item, saveInfo.shopChests[num2]);
+            }
+            num += ShopManager.GetItemCountFromChestSave(item, saveInfo.bedChest);
+            num += ShopManager.GetItemCountFromChestSave(item, saveInfo.salesBox);
+            return num;
         }
     }
 }
