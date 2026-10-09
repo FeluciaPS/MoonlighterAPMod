@@ -36,7 +36,7 @@ namespace MoonlighterAPMod.Patches.Locations
                 for (int i = 0; i < 4; i++)
                 {
                     string itemName = itemNames[i];
-                    ItemMaster itemMaster = InventoryItemHandler.GetItem(itemName);
+                    ItemMaster itemMaster = CustomItemModule.GetItemByName(itemName);
 
 
                     if (itemMaster is not DecorativeItemMaster item)

@@ -81,6 +81,8 @@ namespace MoonlighterAPMod.Patches.Locations
 
             internal static void UpdateItemsUnlocked(List<bool> items, bool isWeaponFamily)
             {
+                int requiredFloor = isWeaponFamily ? 2 : 1;
+                requiredFloor = 1; // TODO: Think about this later
                 if (isWeaponFamily) items[0] = ItemHelper.CanReachFloor(ItemMaster.Culture.Golem, 1);
 
                 for (int i = 0; i < items.Count; i++)
@@ -90,7 +92,7 @@ namespace MoonlighterAPMod.Patches.Locations
                     int index = isWeaponFamily ? i - 1 : i;
                     ItemMaster.Culture culture = (ItemMaster.Culture)(index % 4 + 1);
 
-                    items[i] = ItemHelper.CanReachFloor(culture, 1);
+                    items[i] = ItemHelper.CanReachFloor(culture, requiredFloor);
                 }
             }
 
