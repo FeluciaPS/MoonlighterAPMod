@@ -1,6 +1,8 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace MoonlighterAPMod.Mod
@@ -108,6 +110,46 @@ namespace MoonlighterAPMod.Mod
             {
                 removeListenerMethod?.Invoke(persistentCallGroup, [i]);
             }
+        }
+
+        // Overworld death stuff
+
+        internal void RunOverworldDeath()
+        {
+            StartCoroutine(OverworldDeathCoroutine());
+        }
+
+        private IEnumerator OverworldDeathCoroutine()
+        {
+            yield return new WaitForSecondsRealtime(2.5f);
+
+            GUIManager.Instance.FadeBoth(delegate
+            {
+                StartCoroutine(TownLoadCoroutine());
+            }, null, 0.5f, activeHUDOnFadeIn: false);
+        }
+
+        private IEnumerator TownLoadCoroutine()
+        {
+            GameManager gameManager = GameManager.Instance;
+            HeroMerchant merchant = HeroMerchant.Instance;
+            GUIManager.Instance.GoToDungeonLoadingPanel();
+            yield return new WaitForSecondsRealtime(1f);
+            gameManager.DeleteAllDroppedItems();
+            gameManager.DestroyAllDestroyableItems();
+
+            merchant.heroMerchantInventory.RemoveAllNotSafeItems();
+            merchant.heroMerchantInventory.ResetAffectedSlots();
+
+            if (gameManager.IsTownSceneLoaded())
+            {
+                int id = SceneUtility.GetBuildIndexByScenePath("Scenes/Town");
+                yield return SceneManager.UnloadSceneAsync(id);
+            }
+
+            HeroMerchant.Instance.heroMerchantStats.RecoverAllHealth();
+
+            gameManager.LoadTownScene();
         }
     }
 }
