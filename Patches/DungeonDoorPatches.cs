@@ -79,22 +79,6 @@ namespace MoonlighterAPMod.Patches
 
         }
 
-        [HarmonyPatch(typeof(NextLevelDoor))]
-        [HarmonyPatch(nameof(NextLevelDoor.OpenDoor))]
-        internal static class NextLevelDoorDisablePatch
-        {
-            internal static bool Prefix(NextLevelDoor __instance)
-            {
-                if (!ArchipelagoClient.IsClientConnected) return false;
-
-                int nextFloor = DungeonManager.Instance.level + 2;
-                ItemMaster.Culture dungeonType = DungeonManager.Instance.culture;
-
-                if (ItemHelper.CanReachFloor(dungeonType, nextFloor)) return false;
-                return true;
-            }
-        }
-
         [HarmonyPatch(typeof(DungeonRoom))]
         [HarmonyPatch(nameof(DungeonRoom.EnterRoom))]
         internal static class RemoveNextLevelDoorPatch
@@ -130,6 +114,7 @@ namespace MoonlighterAPMod.Patches
                         {
                             n++;
                             yield return instr;
+                            continue;
                         }
 
                         MethodInfo newOperation = AccessTools.Method(typeof(OpenAllDoorsTranspiler), nameof(GetDoorHook));
@@ -144,7 +129,6 @@ namespace MoonlighterAPMod.Patches
 
             internal static DungeonDoor GetDoorHook(DungeonRoom room)
             {
-                if (room == null) return null;
                 DungeonDoor door = room.GetSpecialDoor();
                 if (door is not NextLevelDoor) return door;
 

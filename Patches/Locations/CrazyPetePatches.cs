@@ -36,7 +36,7 @@ namespace MoonlighterAPMod.Patches.Locations
                 ItemMaster.Culture culture = DungeonManager.Instance.culture;
                 int index = __instance.crazyPeteNoteIndex % 3 + 1;
 
-                string locationName = $"{culture} Note {index + 1}";
+                string locationName = $"{culture} Note {index}";
 
                 MoonlighterAPMod.APInfo($"Trying to drop crazy pete location {locationName}.");
 
