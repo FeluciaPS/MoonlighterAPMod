@@ -19,5 +19,18 @@ namespace MoonlighterAPMod.Patches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(GUIManager))]
+        [HarmonyPatch(nameof(GUIManager.FadeOut))]
+        internal static class FadeOutPatch
+        {
+            internal static void Prefix()
+            {
+                if (!ArchipelagoClient.IsInGameplay) return;
+                if (!ArchipelagoClient.IsClientConnected) return;
+
+                MoonlighterAPMod.client.ReceiveAllItems();
+            }
+        }
     }
 }

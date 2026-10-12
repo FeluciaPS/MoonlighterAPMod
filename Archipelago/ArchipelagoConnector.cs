@@ -64,7 +64,7 @@ namespace MoonlighterAPMod.Archipelago
             errorMsg = $"Connection failed: {errorMsg}";
             MoonlighterAPMod.APError(errorMsg);
 
-            MoonlighterAPMod.connectionUI.ShowError(errorMsg);
+            MoonlighterAPMod.connectionUI.OnError(errorMsg);
             Session = null;
         }
 
@@ -75,9 +75,9 @@ namespace MoonlighterAPMod.Archipelago
 
             SlotData = successResult.SlotData;
 
-            MoonlighterAPMod.connectionUI.ShowSuccess(successMessage);
+            MoonlighterAPMod.connectionUI.OnSuccess(successMessage);
 
-            // TODO: Update received items or whatever
+            DeathLinkHelper.Start(Session);
         }
 
         internal void SetDeathLink(bool deathLink)

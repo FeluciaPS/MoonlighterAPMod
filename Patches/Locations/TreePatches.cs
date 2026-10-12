@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
-using MoonlighterAPMod.Archipelago;
+using MoonlighterAPMod.Mod;
 
-namespace MoonlighterAPMod.Patches
+namespace MoonlighterAPMod.Patches.Locations
 {
     internal class TreePatches
     {
@@ -19,9 +19,7 @@ namespace MoonlighterAPMod.Patches
             {
                 if (___timesTreeHitDropped != n)
                 {
-                    MoonlighterAPMod.APInfo($"Sending money tree location");
-
-                    LocationHelper.SendLocation(1);
+                    CustomItemModule.DropLocationItem("Tree Money", __instance.transform.position);
                 }
             }
         }

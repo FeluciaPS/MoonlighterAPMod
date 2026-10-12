@@ -1,7 +1,8 @@
 ﻿using HarmonyLib;
 using MoonlighterAPMod.Archipelago;
+using MoonlighterAPMod.Mod;
 
-namespace MoonlighterAPMod.Patches
+namespace MoonlighterAPMod.Patches.Locations
 {
     internal class CrazyPetePatches
     {
@@ -14,10 +15,11 @@ namespace MoonlighterAPMod.Patches
                 // Forcefully set the pete index to one that hasn't been collected yet
                 // so that it's not a total RNG check.
                 ItemMaster.Culture culture = DungeonManager.Instance.culture;
+
                 for (int index = 0; index < 3; index++)
                 {
-                    long locationId = ((int)culture) * 100 + index + 1;
-                    if (LocationHelper.IsChecked(locationId)) continue;
+                    string locationName = $"{culture} Note {index + 1}";
+                    if (CustomItemModule.HasLocation(locationName)) continue;
 
                     __instance.crazyPeteNoteIndex = index;
                     break;
@@ -34,10 +36,11 @@ namespace MoonlighterAPMod.Patches
                 ItemMaster.Culture culture = DungeonManager.Instance.culture;
                 int index = __instance.crazyPeteNoteIndex % 3 + 1;
 
-                long locationId = ((int)culture) * 100 + index;
+                string locationName = $"{culture} Note {index}";
 
-                MoonlighterAPMod.APInfo($"Sending crazy pete location {culture} {index} with ID {locationId}.");
-                LocationHelper.SendLocation(locationId);
+                MoonlighterAPMod.APInfo($"Trying to drop crazy pete location {locationName}.");
+
+                CustomItemModule.DropLocationItem(locationName, __instance.transform.position);
             }
         }
     }
