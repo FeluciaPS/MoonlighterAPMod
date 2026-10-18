@@ -91,7 +91,7 @@ namespace MoonlighterAPMod.Patches.Locations
         [HarmonyPatch("Scene11_1")]
         internal static class SecondTutorialItemPatch
         {
-            internal static void Prefix() => SendTutorialLocation(0);
+            internal static void Prefix() => SendTutorialLocation(1);
         }
     }
 }
