@@ -13,7 +13,7 @@ namespace MoonlighterAPMod.Mod
 
             ItemMaster item = GetItem(gameItemName);
 
-            if (item != null)
+            if (item != null && item is not DecorativeItemMaster)
             {
                 ItemStack stack = ItemStack.Create(item);
                 return HeroMerchant.Instance.heroMerchantInventory.TryAddItem(stack);
@@ -70,6 +70,8 @@ namespace MoonlighterAPMod.Mod
 
         internal static string GetGameItemName(string itemName)
         {
+            if (itemName == "Money") return itemName;
+
             if (itemName.Contains("Progressive"))
             {
                 string lastWord = itemName.Split(' ').Last();
@@ -91,8 +93,10 @@ namespace MoonlighterAPMod.Mod
             }
 
             if (MoonlighterAPConstants.ALL_EQUIPMENT_NAMES.Contains(itemName)) return itemName;
-            if (GetItem(itemName) != null) return itemName;
-            if (itemName == "Money") return itemName;
+
+            // DecorativeItemMaster items are items but not inventory items, so don't try to receive them.
+            ItemMaster item = GetItem(itemName);
+            if (item != null && item is not DecorativeItemMaster) return itemName;
 
             return null;
         }
