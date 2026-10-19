@@ -20,7 +20,11 @@ namespace MoonlighterAPMod.Patches.Locations
 
                 var culture = DungeonManager.Instance.culture;
 
-                if (culture == Culture.Unknown) return;
+                if (culture == Culture.Unknown)
+                {
+                    __result = false;
+                    return;
+                }
 
                 __result = WorldStateHelper.IsBossDefeated(culture);
 
