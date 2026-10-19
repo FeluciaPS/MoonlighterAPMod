@@ -19,6 +19,9 @@ namespace MoonlighterAPMod.Patches.Locations
                 if (!ArchipelagoClient.IsClientConnected) return;
 
                 var culture = DungeonManager.Instance.culture;
+
+                if (culture == Culture.Unknown) return;
+
                 __result = WorldStateHelper.IsBossDefeated(culture);
 
                 if (__result)
@@ -44,7 +47,6 @@ namespace MoonlighterAPMod.Patches.Locations
 
                 if (culture == Culture.Unknown)
                 {
-                    GoalHelper.TrySendGoal(GoalHelper.GoalType.PirateBoss);
                     return;
                 }
 
@@ -56,6 +58,16 @@ namespace MoonlighterAPMod.Patches.Locations
 
                 // Lying to the game and pretending no boss was defeated so no scary cutscenes happen
                 GameManager.Instance.bossDefeatedCulture = ItemMaster.Culture.Developer;
+            }
+        }
+
+        [HarmonyPatch(typeof(TownCinematics))]
+        [HarmonyPatch(nameof(TownCinematics.PrepareEndGameAnimation))]
+        internal static class EndGameGoalPatch
+        {
+            internal static void Prefix()
+            {
+                GoalHelper.TrySendGoal(GoalHelper.GoalType.PirateBoss);
             }
         }
     }

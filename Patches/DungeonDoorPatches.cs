@@ -25,6 +25,8 @@ namespace MoonlighterAPMod.Patches
         {
             private static void SetState(WorldDungeonDoor __instance, bool state)
             {
+                string stateString = state ? "Open" : "Closed";
+                MoonlighterAPMod.APInfo($"Setting door state for {__instance.dungeonType}: {stateString}");
                 if (state)
                 {
                     __instance.UnlockDoor();
@@ -39,10 +41,14 @@ namespace MoonlighterAPMod.Patches
             {
                 MoonlighterAPMod.APInfo($"Placing keys in 5th dungeon door");
 
-                GameObject.Find("GolemLock")?.SetActive(value: ItemHelper.HasItem("Golem Key"));
-                GameObject.Find("ForestLock")?.SetActive(value: ItemHelper.HasItem("Forest Key"));
-                GameObject.Find("DesertLock")?.SetActive(value: ItemHelper.HasItem("Desert Key"));
-                GameObject.Find("TechLock")?.SetActive(value: ItemHelper.HasItem("Tech Key"));
+                string[] dungeons = ["Golem", "Forest", "Desert", "Tech"];
+
+                foreach (string dungeon in dungeons)
+                {
+                    GameObject.Find($"{dungeon}Lock")?.SetActive(value: ItemHelper.HasItem($"{dungeon} Key"));
+                    __instance.portalAnimator.SetTrigger($"{dungeon}BossDefeated");
+                }
+
                 bool hasUnknownDungeon = ItemHelper.HasItems(["Golem Key", "Forest Key", "Desert Key", "Tech Key"]);
                 if (OptionsHelper.RequireBosses) hasUnknownDungeon = hasUnknownDungeon && LocationHelper.CountChecked([110, 210, 310, 410]) == 4;
                 SetState(__instance, hasUnknownDungeon);
@@ -51,8 +57,8 @@ namespace MoonlighterAPMod.Patches
             internal static bool Prefix(WorldDungeonDoor __instance)
             {
                 if (!ArchipelagoClient.IsClientConnected) return true;
-
-                MoonlighterAPMod.APInfo($"Setting door state for {__instance.dungeonType}");
+                
+                
                 switch (__instance.dungeonType)
                 {
                     case ItemMaster.Culture.Unknown:

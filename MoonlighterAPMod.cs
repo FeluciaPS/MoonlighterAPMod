@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using MoonlighterAPMod.Archipelago;
 using MoonlighterAPMod.Mod;
+using System;
 using UnityEngine;
 
 namespace MoonlighterAPMod
@@ -9,6 +10,7 @@ namespace MoonlighterAPMod
     [BepInPlugin(ModInfo.PLUGIN_GUID, ModInfo.PLUGIN_NAME, ModInfo.PLUGIN_VERSION)]
     internal class MoonlighterAPMod : BaseUnityPlugin
     {
+        internal static bool DebugMode = false;
         internal static new ManualLogSource Logger;
 
         internal static ArchipelagoClient client;
@@ -18,6 +20,12 @@ namespace MoonlighterAPMod
         internal static void APInfo(object obj) => Logger.LogInfo(obj);
         internal static void APError(object obj) => Logger.LogError(obj);
         internal static void APWarning(object obj) => Logger.LogWarning(obj);
+
+        internal static void APDebug(object obj)
+        {
+            if (!DebugMode) return;
+            APInfo(obj);
+        }
 
         private void Awake()
         {

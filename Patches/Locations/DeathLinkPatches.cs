@@ -31,8 +31,6 @@ namespace MoonlighterAPMod.Patches.Locations
 
             internal static bool IsTownSceneLoaded(GameManager gameManager)
             {
-                MoonlighterAPMod.APMessage("Overriding IsTownSceneLoaded in damage function");
-                return false;
                 if (ArchipelagoClient.IsClientConnected) return false;
                 return gameManager.IsTownSceneLoaded();
             }

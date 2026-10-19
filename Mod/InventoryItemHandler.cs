@@ -11,11 +11,13 @@ namespace MoonlighterAPMod.Mod
         {
             if (ReceiveMoney(gameItemName)) return true;
 
+            MoonlighterAPMod.APInfo($"Try receive game item");
             ItemMaster item = GetItem(gameItemName);
-
+            MoonlighterAPMod.APInfo($"Item name: {item?.name ?? "Item not found"}");
             if (item != null && item is not DecorativeItemMaster)
             {
                 ItemStack stack = ItemStack.Create(item);
+                MoonlighterAPMod.APInfo("Item stack created");
                 return HeroMerchant.Instance.heroMerchantInventory.TryAddItem(stack);
             }
 
@@ -139,11 +141,12 @@ namespace MoonlighterAPMod.Mod
         {
             HeroMerchantInventory inventory = HeroMerchant.Instance.heroMerchantInventory;
 
+            MoonlighterAPMod.APDebug("Clearing inventory...");
             int i = 0;
             foreach (InventorySlot slot in inventory.slots)
             {
                 i++;
-                MoonlighterAPMod.APInfo($"Removing item {i}");
+                MoonlighterAPMod.APDebug($"Removing item {i}");
 
                 if (slot.item == null) continue;
                 inventory.TryRemoveItem(slot.item);
@@ -151,7 +154,8 @@ namespace MoonlighterAPMod.Mod
 
             foreach (ItemStack item in inventory.equippedItems.ToArray())
             {
-                MoonlighterAPMod.APInfo($"Removing item {i}");
+                i++;
+                MoonlighterAPMod.APDebug($"Removing item {i}");
 
                 if (item == null) continue;
                 if (item.master is AbilityItemMaster) continue;

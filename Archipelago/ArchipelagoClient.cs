@@ -131,7 +131,7 @@ namespace MoonlighterAPMod.Archipelago
 
             foreach (string item in SaveManager.saveData.collectedItems)
             {
-                MoonlighterAPMod.APMessage($"Already received {item}. Don't receive again");
+                MoonlighterAPMod.APDebug($"Already received {item}. Don't receive again");
                 int index = receivedItems.FindIndex(x => x.ItemName == item);
                 if (index != -1)
                 {

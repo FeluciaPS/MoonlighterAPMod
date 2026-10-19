@@ -52,6 +52,10 @@
 			<HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<Reference Include="UnityEngine.AnimationModule">
+		    <HintPath>..\..\..\SteamLibrary\steamapps\common\Moonlighter\Moonlighter_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+            <Private>false</Private>
+		</Reference>
 		<Reference Include="UnityEngine.AudioModule">
 			<HintPath>$(GameDir)\Moonlighter_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
 			<Private>false</Private>
