@@ -4,7 +4,7 @@
     {
         internal const string PLUGIN_GUID = "FeluciaPS.MoonlighterAPMod";
         internal const string PLUGIN_NAME = "MoonlighterAPMod";
-        internal const string PLUGIN_VERSION = "0.1.5";
+        internal const string PLUGIN_VERSION = "0.1.6";
         internal const string GAME_NAME = "Moonlighter";
     }
 }

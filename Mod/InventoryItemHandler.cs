@@ -11,13 +11,10 @@ namespace MoonlighterAPMod.Mod
         {
             if (ReceiveMoney(gameItemName)) return true;
 
-            MoonlighterAPMod.APInfo($"Try receive game item");
             ItemMaster item = GetItem(gameItemName);
-            MoonlighterAPMod.APInfo($"Item name: {item?.name ?? "Item not found"}");
             if (item != null && item is not DecorativeItemMaster)
             {
                 ItemStack stack = ItemStack.Create(item);
-                MoonlighterAPMod.APInfo("Item stack created");
                 return HeroMerchant.Instance.heroMerchantInventory.TryAddItem(stack);
             }
 

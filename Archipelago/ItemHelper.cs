@@ -52,7 +52,7 @@ namespace MoonlighterAPMod.Archipelago
 
         internal static void ReceiveItem(long itemId, string itemName)
         {
-            MoonlighterAPMod.APMessage($"Attempting to receive item {itemName}");
+            MoonlighterAPMod.APMessage($"Receiving item: {itemName}");
             if (!ArchipelagoClient.IsInGameplay)
             {
                 ReceiveLater(itemId, itemName);
@@ -60,7 +60,7 @@ namespace MoonlighterAPMod.Archipelago
             }
 
             var gameItemName = InventoryItemHandler.GetGameItemName(itemName);
-            MoonlighterAPMod.APInfo($"Game item name: {gameItemName ?? "Not a game item"}");
+
             // If the received item isn't a special item, mark it as received.
             bool received = gameItemName == null;
             
@@ -71,7 +71,8 @@ namespace MoonlighterAPMod.Archipelago
 
             if (!received) return;
 
-            MoonlighterAPMod.APInfo("Should've received item");
+            MoonlighterAPMod.APMessage($"Item {itemName} received.");
+
             SaveManager.ReceiveItem(itemName);
         }
 

@@ -29,7 +29,9 @@ namespace MoonlighterAPMod
 
         private void Awake()
         {
-            client = new();
+            GameObject archipelagoClient = new("AP-Client");
+            client = archipelagoClient.AddComponent<ArchipelagoClient>();
+            GameObject.DontDestroyOnLoad(archipelagoClient);
 
             Logger = base.Logger;
             PatchLoader.LoadPatches();

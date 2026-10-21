@@ -4,11 +4,12 @@ using Archipelago.MultiClient.Net.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace MoonlighterAPMod.Archipelago
 {
-    internal class ArchipelagoClient
+    internal class ArchipelagoClient : MonoBehaviour
     {
         // TODO: Clean this up
         private readonly ArchipelagoConnector _connector = new();
@@ -22,6 +23,7 @@ namespace MoonlighterAPMod.Archipelago
         internal static bool IsInGameplay { get { return CheckGameplayActive(); } }
         internal static Dictionary<string, object> SlotData { get { return MoonlighterAPMod.client._connector.SlotData; } }
 
+        private static bool pendingItems = false;
 
         private static bool CheckGameplayActive()
         {
@@ -51,6 +53,15 @@ namespace MoonlighterAPMod.Archipelago
         internal async Task Disconnect()
         {
             await _connector.Disconnect();
+        }
+
+        private void Update()
+        {
+            if (pendingItems)
+            {
+                pendingItems = false;
+                ReceiveAllItems();
+            }
         }
 
         internal void SetDeathLink(bool deathLink)
@@ -121,7 +132,8 @@ namespace MoonlighterAPMod.Archipelago
          */ 
         private void OnItemReceived(ReceivedItemsHelper helper)
         {
-            ReceiveAllItems();
+            // Apparently receiving items on a worker thread is bad
+            pendingItems = true;
         }
 
         public void ReceiveAllItems()

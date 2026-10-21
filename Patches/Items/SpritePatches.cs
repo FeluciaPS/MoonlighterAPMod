@@ -16,6 +16,7 @@ namespace MoonlighterAPMod.Patches.Items
                 if (master is not ArchipelagoItem apItem)
                     return true;
 
+                MoonlighterAPMod.APDebug($"Replacing sprite... {apItem.displayName}");
                 __result = SpriteLoader.GetSprite(apItem.customSpriteName);
                 return false;
             }
